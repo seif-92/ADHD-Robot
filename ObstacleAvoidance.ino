@@ -1,56 +1,35 @@
 # Running-Alarm-Robot
-///
-#include<SoftwareSerial.h>
 
-#include <LiquidCrystal_I2C.h>
-#include <Wire.h> 
-#include <ThreeWire.h>
-#include <RtcDS1302.h>
-
-
-
-LiquidCrystal_I2C lcd(0x27, 16, 2);
-ThreeWire myWire(2,3,4); 
-RtcDS1302<ThreeWire> Rtc(myWire);
-
-#define speedL 10
+#define speedL 8
 #define IN1 9
-#define IN2 8
-#define IN3 7
-#define IN4 6
-#define speedR 5
-#define trig2 2
-#define echo2 3
-#define trig 11
-#define echo 4
-#define buzzer 13
-#define flame 12
+#define IN2 10
+#define IN3 11
+#define IN4 12
+#define speedR 13
+#define trig 7
+#define echo 6
+#define trig1 5
+#define echo1 4
+#define trig2 3
+#define echo2 2
+long duration,distance,duration1,distance1,duration2,distance2;
 
-long duration,distance,duration1,distance1;
-int val=0;
 
 
 
 void setup() 
 {  
   Serial.begin(9600);
-  for(int i=5;i<=12;i++)
+  for(int i=7;i<=13;i++)
   {
     pinMode (i,OUTPUT);
   }
-  
-  pinMode (echo,INPUT);
-  
-  lcd.init();
-  lcd.backlight();
-  lcd.clear();
- 
-  Rtc.Begin();
- // RtcDateTime currentTime = RtcDateTime(__DATE__,__TIME__);
-  //Rtc.SetDateTime(currentTime);
-  tone(12,277);
+     pinMode (5,OUTPUT);
+     pinMode (3,OUTPUT);
 
-  
+    pinMode (6,INPUT);
+    pinMode (2,INPUT);
+    pinMode (4,INPUT);
 
   
 }
@@ -67,7 +46,17 @@ void Ultrasonic()
   
   digitalWrite(trig,LOW);
 
-   digitalWrite(trig2,LOW);
+  digitalWrite(trig1,LOW);
+
+  delayMicroseconds(2);
+  
+  digitalWrite(trig1,HIGH);
+  
+  delayMicroseconds(10);
+  
+  digitalWrite(trig1,LOW);
+
+ digitalWrite(trig2,LOW);
 
   delayMicroseconds(2);
   
@@ -76,15 +65,22 @@ void Ultrasonic()
   delayMicroseconds(10);
   
   digitalWrite(trig2,LOW);
+
   duration=pulseIn(echo,HIGH);
   distance=(duration/2)*0.0343;
 
-  duration1=pulseIn(echo2,HIGH);
-  distance1=(duration1/2)*0.0343;
   
+  duration1=pulseIn(echo1,HIGH);
+  distance1=(duration1/2)*0.0343;
+
+  
+  duration2=pulseIn(echo2,HIGH);
+  distance2=(duration2/2)*0.0343;
+
 
   
 }
+
 
 
 void forword()
@@ -93,8 +89,8 @@ void forword()
         digitalWrite(IN2, LOW);
         digitalWrite(IN3, HIGH);
         digitalWrite(IN4, LOW);
-        analogWrite(speedL,125);
-        analogWrite(speedR,125);                  
+        analogWrite(speedL,200);
+        analogWrite(speedR,200);                  
        
 }
 void backword()
@@ -104,8 +100,8 @@ void backword()
         digitalWrite(IN2, HIGH);
         digitalWrite(IN3, LOW);
         digitalWrite(IN4, HIGH);
-        analogWrite(speedL,125);
-        analogWrite(speedR,125);
+         analogWrite(speedL,200);
+        analogWrite(speedR,200);  
 }
 
 void right()
@@ -113,19 +109,19 @@ void right()
         digitalWrite(IN1, HIGH);
         digitalWrite(IN2, LOW);
         digitalWrite(IN3, LOW);
-        digitalWrite(IN4, LOW); 
-        analogWrite(speedL,125);
-        analogWrite(speedR,0);
+        digitalWrite(IN4, HIGH); 
+         analogWrite(speedL,200);
+        analogWrite(speedR,200);  
 }
         
 void left()
 {
         digitalWrite(IN1, LOW);
-        digitalWrite(IN2, LOW);
+        digitalWrite(IN2, HIGH);
         digitalWrite(IN3, HIGH);
         digitalWrite(IN4, LOW);
-        analogWrite(speedL,0);
-        analogWrite(speedR,125);
+         analogWrite(speedL,200);
+        analogWrite(speedR,200);  
         
 }
         
@@ -138,29 +134,13 @@ void left()
         analogWrite(speedL,0);
         analogWrite(speedR,0);
        }     
- void smoke ()
- {
-   val = digitalRead(flame);
-  if (val == LOW) {
-    val=0;
-  }
-  else{
-    val=1;
-    lcd.println("FIRE");
-
-    }
-  }
-  
 void loop()
 {
-  
-  
-  smoke();
    Ultrasonic();
-if (distance<20 || distance1<20){
-  stopp();delay(500);
-  backword();delay (500);
-  right();delay(500);
+if ((distance<15) || (distance1<15) || (distance2<15)){
+  stopp();delay(1000);
+  backword();delay (1000);
+  right();delay(1000);
 
 }  
 else{forword();}
