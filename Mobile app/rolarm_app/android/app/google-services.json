@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "831405160314",
+    "project_id": "robolarm",
+    "storage_bucket": "robolarm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831405160314:android:ec98ff66266ae944df08c3",
+        "android_client_info": {
+          "package_name": "com.example.rolarm_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831405160314-hqbtb0u0dlieprgkomcgilssoklbbjss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFdFoAzn53BhbGffnMthlZ8pnwheMyPKM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831405160314-hqbtb0u0dlieprgkomcgilssoklbbjss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
